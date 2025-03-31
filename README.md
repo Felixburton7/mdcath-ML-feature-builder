@@ -100,6 +100,22 @@ graph LR
     B -- Base Feature CSV --> K;
     K -- Merged CSV (with Ext. Preds) --> L(flexseq OmniFlex Mode);
 
+graph LR
+    A[mdCATH HDF5 Data] --> B(mdcath-processor);
+    C[CATH List File] --> D(mdcath-sampling);
+    B -- Feature CSVs --> D;
+    D -- Training Domain List --> E[flexseq / esmflex Training];
+    D -- Holdout Domain List --> F[flexseq / esmflex / voxelflex Testing];
+    B -- Feature CSVs --> E;
+    B -- Feature CSVs --> F;
+    B -- Aposteriori --> G[Voxel HDF5];
+    G --> H(voxelflex);
+    I[ESM Embeddings] --> J(esmflex);
+    H -- Voxel RMSF Predictions --> K{Merge Data};
+    J -- ESM RMSF Predictions --> K;
+    B -- Base Feature CSV --> K;
+    K -- Merged CSV (with Ext. Preds) --> L(flexseq OmniFlex Mode);
+
     style A fill:#D2B48C,stroke:#8B4513
     style G fill:#ADD8E6,stroke:#4682B4
     style I fill:#E6E6FA,stroke:#9370DB
