@@ -84,6 +84,50 @@ outputs/
 
 [Details on how to contribute - e.g., reporting issues, submitting pull requests]
 
+graph LR
+    A[mdCATH HDF5 Data] --> B(mdcath-processor);
+    C[CATH List File] --> D(mdcath-sampling);
+    B -- Feature CSVs --> D;
+    D -- Training Domain List --> E[flexseq / esmflex Training];
+    D -- Holdout Domain List --> F[flexseq / esmflex / voxelflex Testing];
+    B -- Feature CSVs --> E;
+    B -- Feature CSVs --> F;
+    B -- Aposteriori --> G[Voxel HDF5];
+    G --> H(voxelflex);
+    I[ESM Embeddings] --> J(esmflex);
+    H -- Voxel RMSF Predictions --> K{Merge Data};
+    J -- ESM RMSF Predictions --> K;
+    B -- Base Feature CSV --> K;
+    K -- Merged CSV (with Ext. Preds) --> L(flexseq OmniFlex Mode);
+
+    style A fill:#D2B48C,stroke:#8B4513
+    style G fill:#ADD8E6,stroke:#4682B4
+    style I fill:#E6E6FA,stroke:#9370DB
+    style C fill:#F5F5DC,stroke:#A0522D
+    style B fill:#90EE90,stroke:#2E8B57
+    style D fill:#FFDAB9,stroke:#FFA07A
+    style H fill:#AFEEEE,stroke:#48D1CC
+    style J fill:#FFE4E1,stroke:#DB7093
+    style L fill:#FFFFE0,stroke:#BDB76B
+    style E fill:#FFFFE0,stroke:#BDB76B
+    style F fill:#FFFFE0,stroke:#BDB76B
+    style K fill:#E0FFFF,stroke:#00CED1
+
+    subgraph "Preprocessing"
+        B
+        G
+        I
+        C
+        D
+        K
+    end
+    subgraph "ML Pipelines"
+        H
+        J
+        L
+        E
+        F
+    end
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
